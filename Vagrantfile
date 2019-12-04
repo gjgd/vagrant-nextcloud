@@ -1,10 +1,11 @@
-$script = <<-SCRIPT
-cd /vagrant/
-bash install.sh
-SCRIPT
-
 Vagrant.configure("2") do |config|
-  config.vm.box = "ubuntu/xenial64"
-  config.vm.network "forwarded_port", guest: 80, host: 8080
-  config.vm.provision "shell", inline: $script
+  config.vm.box = "ubuntu/bionic64"
+  config.vm.network "forwarded_port", guest: 443, host: 8080
+  config.vm.provision "shell", path: "install.sh"
+  config.vm.provider "virtualbox" do |vb|
+    vb.memory = "2048"
+  end
+  config.vm.provider "vmware_desktop" do |v|
+    v.vmx["memsize"] = "2048"
+  end
 end
